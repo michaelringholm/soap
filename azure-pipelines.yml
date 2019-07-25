@@ -15,3 +15,8 @@ variables:
 steps:
 - script: dotnet build dotnet/soap-api --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
