@@ -1,6 +1,8 @@
+using System;
+
 namespace soap_api
 {
-    internal class SimpleSOAPService : ISimpleSOAPService
+    public class SimpleSOAPService : ISimpleSOAPService
     {
         public string Echo(string msg)
         {
@@ -11,5 +13,10 @@ namespace soap_api
         {
             return "Ping!";
         }
+
+        public ReportDTO GetReport()
+        {
+            return new ReportDTO{ ReportID = 1, Title = "Financial Report", LastUpdated = DateTime.Now };
+        }        
     }
 }
