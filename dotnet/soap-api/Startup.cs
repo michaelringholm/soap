@@ -31,7 +31,7 @@ namespace soap_api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSoapCore();
-            //services.TryAddSingleton<ServiceContractImpl>();
+            services.TryAddSingleton<ISimpleSOAPService, SimpleSOAPService>();
             services.AddSoapExceptionTransformer((ex) => ex.Message);
         }
 
