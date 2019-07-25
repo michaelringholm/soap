@@ -1,28 +1,53 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+pool:
+  name: Hosted Ubuntu 1604
 
 trigger:
-- master
-
-pool:
-  vmImage: 'ubuntu-latest'
+  branches:
+    include:
+    - master
 
 variables:
-  buildConfiguration: 'Release'
+  ProjectsFilter: '**/soap-api/soap-api.csproj'
+  TestProjectsFilter: '**/*-test.csproj'
+  BuildConfiguration: 'Release'
 
 steps:
-- script: dotnet build dotnet/soap-api --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: Restore (Build)
+  inputs:
+    command: restore
+    projects: '$(ProjectsFilter)'
 
 - task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
-    command: 'publish'
-    publishWebProjects: true
+    projects: '$(ProjectsFilter)'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '$(TestProjectsFilter)'
+    arguments: '--configuration $(BuildConfiguration) --filter Category=UnitTest'
+
+- task: DotNetCoreCLI@2
+  displayName: Restore (Publish)
+  inputs:
+    command: restore
+    projects: '$(ProjectsFilter)'
+    noCache: true          
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory) --no-restore'
+    zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
