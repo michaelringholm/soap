@@ -9,6 +9,9 @@ namespace soap_api
         string Ping();
 
         [OperationContract]
-        string Echo(string msg);        
+        string Echo(string msg);
+
+        [OperationContract]
+        ReportDTO GetReport();             
     }
 }
