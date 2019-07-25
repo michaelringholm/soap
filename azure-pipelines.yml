@@ -13,5 +13,5 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build soap-api --configuration $(buildConfiguration)
+- script: dotnet build dotnet/soap-api --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
