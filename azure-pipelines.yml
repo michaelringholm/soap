@@ -1,0 +1,53 @@
+pool:
+  name: Hosted Ubuntu 1604
+
+trigger:
+  branches:
+    include:
+    - master
+
+variables:
+  ProjectsFilter: '**/soap-api/soap-api.csproj'
+  TestProjectsFilter: '**/*-test.csproj'
+  BuildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Restore (Build)
+  inputs:
+    command: restore
+    projects: '$(ProjectsFilter)'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '$(ProjectsFilter)'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '$(TestProjectsFilter)'
+    arguments: '--configuration $(BuildConfiguration) --filter Category=UnitTest'
+
+- task: DotNetCoreCLI@2
+  displayName: Restore (Publish)
+  inputs:
+    command: restore
+    projects: '$(ProjectsFilter)'
+    noCache: true          
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory) --no-restore'
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
