@@ -1,11 +1,13 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace soap_api
 {
+    [DataContract]
     public class ReportDTO
     {
-        public DateTime LastUpdated { get; internal set; }
-        public string Title { get; internal set; }
-        public int ReportID { get; internal set; }
+        [DataMember] public DateTime LastUpdated { get; internal set; }
+        [DataMember] public string Title { get; internal set; }
+        [DataMember] public int ReportID { get; internal set; }
     }
 }
