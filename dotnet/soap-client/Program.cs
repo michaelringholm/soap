@@ -15,7 +15,7 @@ namespace soap_client
         {
             var binding = new BasicHttpsBinding();
             var endpoint = new EndpointAddress(new Uri("<url>"));
-            dynamic channelFactory = new ChannelFactory<ISimpleSOAPAPI>(binding, endpoint);
+            dynamic channelFactory = new ChannelFactory<ISimpleSOAPService>(binding, endpoint);
             var serviceClient = channelFactory.CreateChannel();
             var result = serviceClient.Ping();
             channelFactory.Close();

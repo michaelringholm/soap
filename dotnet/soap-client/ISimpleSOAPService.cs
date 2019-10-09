@@ -3,7 +3,7 @@ using System.ServiceModel;
 namespace soap_client
 {
     [ServiceContract]
-    internal interface ISimpleSOAPAPI
+    internal interface ISimpleSOAPService
     {
         [OperationContract]
         string Ping();
