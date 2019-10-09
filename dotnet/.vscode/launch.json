@@ -1,11 +1,22 @@
 {
-   // Use IntelliSense to find out which attributes exist for C# debugging
-   // Use hover for the description of the existing attributes
-   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-   "version": "0.2.0",
-   "configurations": [
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Launch (soap-client)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-soap-client",
+            "program": "${workspaceFolder}/soap-client/bin/Debug/netcoreapp2.2/soap-client.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/soap-client",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Launch (soap-api)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -17,7 +28,7 @@
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"                
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
