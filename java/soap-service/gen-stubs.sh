@@ -1,0 +1,2 @@
+clear
+mvn generate-sources

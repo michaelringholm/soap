@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+  xmlns:ns1="PITrans70Ver6" 
+  xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" 
+  xmlns:soap12="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" 
+  xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:tns="http://service.ws.communication.bec.dk" 
+  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://service.ws.communication.bec.dk">
+  <wsdl:types>
+    <xsd:schema xmlns="PITrans70Ver6" targetNamespace="PITrans70Ver6">
+      <xsd:element name="OpdateringFuldBestand">
+        <xsd:annotation>
+          <xsd:documentation>70 Opdatering Fuld bestand</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Header" minOccurs="1" maxOccurs="1">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="VersionNr">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:int">
+                        <xsd:totalDigits value="2" />
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                  <xsd:element name="LeveranceID">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:string">
+                        <xsd:minLength value="1" />
+                        <xsd:maxLength value="16" />
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                  <xsd:element name="FormidlingsmaskineID" minOccurs="0">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:string">
+                        <xsd:minLength value="1" />
+                        <xsd:maxLength value="48" />
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                  <xsd:element name="TransaktionstypeNr">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:int">
+                        <xsd:totalDigits value="3" />
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                  <xsd:element name="LeveranceTidspunkt" type="xsd:dateTime" />
+                  <xsd:element name="PensionsudbydernavnNr">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:int">
+                        <xsd:totalDigits value="3" />
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CprData" minOccurs="1" maxOccurs="1">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="SekvensStatus">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:int">
+                        <xsd:totalDigits value="1" />
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                  <xsd:element name="CprNrListe">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:string">
+                        <xsd:minLength value="1" />
+                        <xsd:maxLength value="21999" />
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema targetNamespace="http://service.ws.communication.bec.dk" elementFormDefault="qualified" attributeFormDefault="qualified">
+      <xsd:complexType name="FuldBestandException" />
+      <xsd:element name="FuldBestandException" type="tns:FuldBestandException" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="opdaterFuldBestandResponse" />
+  <wsdl:message name="opdaterFuldBestandRequest">
+    <wsdl:part element="ns1:OpdateringFuldBestand" name="OpdateringFuldBestand" />
+  </wsdl:message>
+  <wsdl:message name="FuldBestandException">
+    <wsdl:part element="tns:FuldBestandException" name="FuldBestandException" />
+  </wsdl:message>
+  <wsdl:portType name="Trans70ServicePortType">
+    <wsdl:operation name="opdaterFuldBestand">
+      <wsdl:input message="tns:opdaterFuldBestandRequest" name="opdaterFuldBestandRequest" />
+      <wsdl:output message="tns:opdaterFuldBestandResponse" name="opdaterFuldBestandResponse" />
+      <wsdl:fault message="tns:FuldBestandException" name="FuldBestandException" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Trans70ServiceHttpBinding" type="tns:Trans70ServicePortType">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="opdaterFuldBestand">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="opdaterFuldBestandRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="opdaterFuldBestandResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="FuldBestandException">
+        <wsdlsoap:fault name="FuldBestandException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Trans70Service">
+    <wsdl:port binding="tns:Trans70ServiceHttpBinding" name="Trans70ServiceHttpPort">
+      <wsdlsoap:address location="http://localhost:9080/FMWAR/Trans70.ws" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+
