@@ -29,6 +29,7 @@ public class SoapClient {
             System.out.println(String.format("SOAP URL = %s", soapURL));
             CallRESTMethod();
             CallSOAPMethod(soapURL);
+            CallSOAPMethodWithBearerToken(soapURL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,16 +46,30 @@ public class SoapClient {
     }
 
     private static void CallSOAPMethod(String soapURL) throws Exception {
+        String soapBody = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ss=\"http://tempuri.org/\">"
+                    + "<soapenv:Body>" + "<ss:Echo>" + "<ss:msg>Please echo this</ss:msg>" + "</ss:Echo>"
+                    + "</soapenv:Body>" + "</soapenv:Envelope>";
+        CallSOAPMethod(soapURL, soapBody, null);
+    }
+
+    private static void CallSOAPMethodWithBearerToken(String soapURL) throws Exception {
+        String soapBody = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ss=\"http://tempuri.org/\">"
+                    + "<soapenv:Body>" + "<ss:Echo>" + "<ss:msg>Please echo this</ss:msg>" + "</ss:Echo>"
+                    + "</soapenv:Body>" + "</soapenv:Envelope>";
+        String bearerToken = "";
+        CallSOAPMethod(soapURL, soapBody, bearerToken);
+    }   
+
+    private static void CallSOAPMethod(String soapURL, String soapBody, String bearerToken) throws Exception {
         System.out.println("Calling SOAP method...");
         CloseableHttpClient client = null;
         try {
             client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(soapURL);
-            httpPost.addHeader("Content-Type", "text/xml");
-            String xml = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ss=\"http://tempuri.org/\">"
-                    + "<soapenv:Body>" + "<ss:Echo>" + "<ss:msg>Please echo this</ss:msg>" + "</ss:Echo>"
-                    + "</soapenv:Body>" + "</soapenv:Envelope>";
-            HttpEntity entity = new ByteArrayEntity(xml.getBytes("UTF-8"));
+            httpPost.addHeader("Content-Type", "text/xml"); 
+            if(bearerToken != null)
+                httpPost.addHeader("Authorization", String.format("Bearer %s", bearerToken)); 
+            HttpEntity entity = new ByteArrayEntity(soapBody.getBytes("UTF-8"));
             httpPost.setEntity(entity);
             HttpResponse response = client.execute(httpPost);
             String responseData = EntityUtils.toString(response.getEntity());
@@ -65,9 +80,8 @@ public class SoapClient {
             if (client != null)
                 client.close();
         }
-
         System.out.println("Calling SOAP method done.");
-    }
+    } 
 
     private static void CallRESTMethod() throws Exception {
         System.out.println("Calling REST method...");
