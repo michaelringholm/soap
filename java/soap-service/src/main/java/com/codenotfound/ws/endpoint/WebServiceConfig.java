@@ -36,6 +36,12 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     validatingInterceptor.setValidateResponse(true);
     validatingInterceptor.setXsdSchema((trans70XSD()));
     interceptors.add(validatingInterceptor);
+
+    NoContentInterceptor noContentInterceptor = new NoContentInterceptor();
+    validatingInterceptor.setValidateRequest(false);
+    validatingInterceptor.setValidateResponse(true);
+    validatingInterceptor.setXsdSchema((trans70XSD()));
+    interceptors.add(noContentInterceptor);    
   }
 
     @Bean

@@ -35,7 +35,7 @@ public class CustomValidationInterceptor extends PayloadValidatingInterceptor {
         Transformer transformer = tf.newTransformer();
         transformer.transform(payloadSource, result);
         String soapXML = writer.toString();
-        System.out.println("XML IN String format is: \n" + soapXML);
+        System.out.println("SOAP-XML is: \n" + soapXML);
         return soapXML;
     }
 
