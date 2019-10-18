@@ -3,13 +3,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.codenotfound</groupId>
+  <groupId>dk.commentor.pinfo</groupId>
   <artifactId>spring-ws-hello-world</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>spring-ws-hello-world</name>
-  <description>Spring WS Example</description>
-  <url>https://codenotfound.com/spring-ws-example.html</url>
+  <description>PensionsInfo SOAP Facade</description>
+  <url>https://dev-v2.pensionsinfo.dk</url>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -33,21 +33,18 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- JAXB maybe not needed -->
     <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
     <dependency>
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
         <version>2.3.0-b170201.1204</version>
     </dependency>
-
     <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
     <dependency>
         <groupId>javax.activation</groupId>
         <artifactId>activation</artifactId>
         <version>1.1</version>
     </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
     <dependency>
         <groupId>org.glassfish.jaxb</groupId>
@@ -55,7 +52,6 @@
         <version>2.3.0-b170127.1453</version>
     </dependency>
   </dependencies>
-
   <build>
     <plugins>
       <plugin>

@@ -1,2 +1,0 @@
-clear
-mvn generate-sources
