@@ -121,7 +121,7 @@
   </wsdl:binding>
   <wsdl:service name="Trans70Service">
     <wsdl:port binding="tns:Trans70ServiceHttpBinding" name="Trans70ServiceHttpPort">
-      <wsdlsoap:address location="http://localhost:9080/FMWAR/Trans70.ws" />
+      <wsdlsoap:address location="https://13.69.14.74/codenotfound/ws/trans70.wsdl" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
