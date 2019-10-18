@@ -17,6 +17,7 @@ public class Trans70Endpoint {
   @PayloadRoot(namespace = "PITrans70Ver6", localPart = "OpdateringFuldBestand")
   @ResponsePayload
   public void opdaterFuldBestand(@RequestPayload OpdateringFuldBestand request) {
+
     LOGGER.info("Endpoint received cprData[%s]",request.getCprData());
   }
 }
